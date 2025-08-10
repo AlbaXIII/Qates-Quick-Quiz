@@ -9,10 +9,9 @@
     <meta name="keywords" content="football badges, quiz, football">
 
     <!-- font awesome and google fonts -->
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Graduate&family=Train+One&display=swap');
-    </style>
-    <script src="https://kit.fontawesome.com/c1bedcdbe6.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Delius+Unicase:wght@400;700&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Special+Elite&display=swap" rel="stylesheet">
 
     <!-- favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
@@ -27,7 +26,48 @@
 
 <body>
     <main>  
-        <h1>QATES QUICK QUIZ</h1>
+        <div class="quiz-container">
+            <h1>Qate's Quick Quiz!</h1>
+
+            <div id="startScreen" class="startScreen">
+                <h2>Banish those Dilys blues with a quick randomly generated quizicle!</h2>
+                <h2>10 questions, 1 winner</h2>
+                <button id="startBtn" class="btn">Go!</button>
+            </div>
+
+            <div id="loadingScreen" class="loading hidden">
+                <div class="spinner"></div>
+                <span>fetching questions...</span>
+            </div>
+
+            <div id="errorScreen" class="error hidden">
+                <h3>It broke. Sorry!</h3>
+                <p id="errorMessage"></p>
+                <button id="retryBtn" class="btn">Try Again</button>
+            </div>
+
+            <div id="quizScreen" class="quiz-screen hidden">
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+                </div>
+                
+                <div class="question-container">
+                    <div id="questionNumber" class="question-number"></div>
+                    <div id="questionText" class="question-text"></div>
+                    
+                    <div id="options" class="options"></div>
+                    
+                    <button id="nextBtn" class="btn" disabled>Next Question</button>
+                </div>
+            </div>
+
+            <div id="resultsScreen" class="results-screen hidden">
+                <h2>Quiz Complete!</h2>
+                <div id="finalScore" class="score"></div>
+                <div id="scoreText" class="score-text"></div>
+                <button id="restartBtn" class="btn">Again! Again!</button>
+            </div>
+        </div>
     </main>
     <!-- Javascript link -->
     <script src="assets/js/script.js"></script>
