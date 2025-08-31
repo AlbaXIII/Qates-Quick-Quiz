@@ -192,18 +192,35 @@ class KateQuiz {
                 
         this.finalScore.textContent = `${this.score}/${this.questions.length}`;
                 
-        let message;
+        let message, imagePath;
         if (percentage >= 90) {
             message = "Outstanding! You earned a premium Schmako!";
+            imagePath = "assets/images/schmako.jpg";
         } else if (percentage >= 70) {
             message = "Great job! You got a pine marten!";
+            imagePath = "assets/images/pine-marten.jpg";
         } else if (percentage >= 50) {
             message = "Meh. Have a Reggie";
+            imagePath = "assets/images/grouper.jpg";
         } else {
             message = "You made the frog cry :(";
+            imagePath = "assets/images/black-rain-frog.jpg";
         }
+        
+        // Create or update the result image
+        let resultImage = document.getElementById('resultImage');
+        if (!resultImage) {
+            resultImage = document.createElement('img');
+            resultImage.id = 'resultImage';
+            resultImage.className = 'result-image';
+            // Insert before the score text
+            this.scoreText.parentNode.insertBefore(resultImage, this.scoreText);
+        }
+        
+        resultImage.src = imagePath;
+        resultImage.alt = message;
                 
-        this.scoreText.textContent = `${message} (${percentage}%)`;
+        this.scoreText.textContent = `${message}`;
         this.showScreen('results');
     }
 
