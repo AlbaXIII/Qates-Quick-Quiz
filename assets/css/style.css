@@ -43,12 +43,12 @@ h1 {
     font-weight: 300;
 }
 
-.start-screen, .quiz-screen, .results-screen {
+.startScreen, .quizScreen, .resultsScreen {
     text-align: center;
+    border-bottom: 10px;
 }
 
-.start-screen h2 {
-    color: #666;
+.startScreen h2, h4 {
     margin-bottom: 30px;
     font-weight: 400;
 }

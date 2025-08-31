@@ -54,7 +54,7 @@ class KateQuiz {
 
     async fetchQuestions() {
         const url = 'https://opentdb.com/api.php?amount=10&category=9&difficulty=medium&type=multiple'
-
+        
         try {
             const response = await fetch(url);
             if (!response.ok) {
@@ -167,13 +167,13 @@ class KateQuiz {
                 
         let message;
         if (percentage >= 90) {
-            message = "Outstanding! You're a trivia master! 🏆";
+            message = "Outstanding! You earned a premium Schmako!";
         } else if (percentage >= 70) {
-            message = "Great job! You really know your stuff! 👏";
+            message = "Great job! You got a pine marten!";
         } else if (percentage >= 50) {
-            message = "Not bad! Room for improvement, but well done! 👍";
+            message = "Meh. Have a Reggie";
         } else {
-            message = "Keep practicing! Every expert was once a beginner! 💪";
+            message = "You made the frog cry :(";
         }
                 
         this.scoreText.textContent = `${message} (${percentage}%)`;
