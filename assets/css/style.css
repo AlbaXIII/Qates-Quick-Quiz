@@ -49,7 +49,7 @@ h1 {
 }
 
 .startScreen h2, h4 {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     font-weight: 400;
 }
 
@@ -57,6 +57,7 @@ h1 {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border: none;
+    margin-bottom: 10px;
     padding: 15px 30px;
     border-radius: 50px;
     font-size: 18px;
@@ -168,11 +169,14 @@ h1 {
 
 .loading {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 20px;
     color: #667eea;
     font-size: 18px;
+    text-align: center;
+    min-height: 200px;
 }
 
 .spinner {
@@ -190,12 +194,18 @@ h1 {
     }
 
 .error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     color: #dc3545;
     background: #f8d7da;
     border: 1px solid #f5c6cb;
     border-radius: 10px;
-    padding: 20px;
+    padding: 30px;
     margin: 20px 0;
+    min-height: 200px;
 }
 
 .hidden {

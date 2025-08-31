@@ -39,6 +39,7 @@ class KateQuiz {
     }
 
     async startQuiz() {
+        this.startBtn.style.display = 'none';
         this.showScreen('loading');
 
         try {
@@ -48,23 +49,37 @@ class KateQuiz {
             this.showQuestion();
             this.showScreen('quiz');
         } catch (error) {
+            this.startBtn.style.display = 'inline-block';
             this.showError(error.message);
         }
     }
 
     async fetchQuestions() {
-        const url = 'https://opentdb.com/api.php?amount=10&category=9&difficulty=medium&type=multiple'
+        const url = 'https://opentdb.com/api.php?amount=10&category=9&difficulty=medium&type=multiple';
         
         try {
+            console.log('Fetching questions from API...');
             const response = await fetch(url);
+            
             if (!response.ok) {
-                throw new Error('Failed to grab questions!')
+                throw new Error(`Failed to grab questions! HTTP ${response.status}`);
             }
 
             const data = await response.json();
+            console.log('API Response:', data);
 
             if (data.response_code !== 0) {
-                throw new Error('No questions available right now :(')
+                const errorMessages = {
+                    1: 'No questions available right now :(',
+                    2: 'Invalid request parameters',
+                    3: 'Session token not found',
+                    4: 'Session token expired'
+                };
+                throw new Error(errorMessages[data.response_code] || 'API error occurred');
+            }
+
+            if (!data.results || data.results.length === 0) {
+                throw new Error('No questions received from API');
             }
 
             this.questions = data.results.map(q => ({
@@ -76,8 +91,14 @@ class KateQuiz {
                     ...q.incorrect_answers.map(a => this.decodeHtml(a))
                 ])
             }));
+            
+            console.log('Questions loaded successfully:', this.questions.length);
         } catch (error) {
-            throw new Error('Unable to load questions. Go kick the router.')
+            console.error('Fetch error:', error);
+            if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                throw new Error('Network error - go kick the router and try again!');
+            }
+            throw new Error('Unable to load questions. Go kick the router.');
         }
     }
 
@@ -122,12 +143,18 @@ class KateQuiz {
 
     selectAnswer(answer, optionElement) {
         if (this.isAnswered) return;
+        
+        console.log('Answer selected:', answer);
                 
-        document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+        document.querySelectorAll('.option').forEach(opt => {
+            opt.classList.remove('selected');
+        });
                 
         optionElement.classList.add('selected');
         this.selectedAnswer = answer;
         this.nextBtn.disabled = false;
+        
+        console.log('Selected answer set to:', this.selectedAnswer);
     }
 
     nextQuestion() {
@@ -181,7 +208,8 @@ class KateQuiz {
     }
 
     showScreen(screen) {
-        document.querySelectorAll('.start-screen, .loading, .error, .quiz-screen, .results-screen')
+        console.log('Switching to screen:', screen);
+        document.querySelectorAll('.startScreen, .loading, .error, .quiz-screen, .results-screen')
             .forEach(s => s.classList.add('hidden'));
                 
         switch(screen) {
@@ -200,8 +228,11 @@ class KateQuiz {
             case 'results':
                 this.resultsScreen.classList.remove('hidden');
                 break;
-                }
-            }
+            default:
+                console.error('Unknown screen:', screen);
+                this.startScreen.classList.remove('hidden');
+        }
+    }
 
     showError(message) {
         this.errorMessage.textContent = message;
@@ -209,6 +240,7 @@ class KateQuiz {
     }
 
     restart() {
+        this.startBtn.style.display = 'inline-block';
         this.showScreen('start');
     }
 }
